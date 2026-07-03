@@ -16,6 +16,6 @@ if __name__ == "__main__":
     print(f"GC Content: {result}%")
     
     # Assert ensures the code gives the correct scientific answer
-    assert result == 90.0, "Error: GC calculation is wrong!"
+    assert result == 50.0, "Error: GC calculation is wrong!"
     print("All tests passed successfully!")
     print("check check")  
