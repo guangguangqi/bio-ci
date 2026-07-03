@@ -1,21 +1,25 @@
 # count_bases.py
-def calculate_gc(sequence):
-    sequence = sequence.upper()
-    g_count = sequence.count('G')
-    c_count = sequence.count('C')
-    total = len(sequence)
-    if total == 0:
-        return 0
-    return (g_count + c_count) / total * 100
+import sys
 
-# Simple test to make sure it works
-if __name__ == "__main__":
-    test_seq = "ATGCATGC"
-    result = calculate_gc(test_seq)
-    print(f"Testing sequence: {test_seq}")
-    print(f"GC Content: {result}%")
+# Snakemake provides file paths via 'sys.argv' or its built-in 'snakemake' object
+input_file = sys.argv[1]
+output_file = sys.argv[2]
+
+with open(input_file, 'r') as f:
+    lines = f.readlines()
     
-    # Assert ensures the code gives the correct scientific answer
-    assert result == 50.0, "Error: GC calculation is wrong!"
-    print("All tests passed successfully!")
-    print("check check")  
+# Extract the sequence line (skipping the fasta header)
+sequence = lines[1].strip().upper()
+
+g_count = sequence.count('G')
+c_count = sequence.count('C')
+total = len(sequence)
+gc_content = (g_count + c_count) / total * 100
+
+# Write the final result to the output file
+with open(output_file, 'w') as out:
+    out.write(f"Sequence: {sequence}\n")
+    out.write(f"GC Content: {gc_content}%\n")
+
+print(f"Successfully processed {input_file}. GC Content is {gc_content}%.")
+
