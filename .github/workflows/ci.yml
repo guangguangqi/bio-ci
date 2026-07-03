@@ -1,0 +1,25 @@
+name: Bioinformatics CI Pipeline
+
+# Trigger the CI/CD whenever someone pushes code to the main branch
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test-environment:
+    # Tell GitHub to spin up a clean Ubuntu Linux virtual machine
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Download your files from GitHub into the virtual machine
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Step 2: Build the Docker image to make sure there are no environment errors
+    - name: Build Docker Image
+      run: docker build -t bio-script:latest .
+
+    # Step 3: Run the Docker container to execute your Python test
+    - name: Run Python Test inside Docker
+      run: docker run bio-script:latest
+
